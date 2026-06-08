@@ -1,0 +1,297 @@
+.home-page {
+  min-height: calc(100vh - 64px);
+  background-color: var(--background);
+  padding: var(--spacing-lg) 0 var(--spacing-3xl) 0;
+}
+
+.home-container {
+  display: grid;
+  grid-template-columns: 250px 1fr 300px;
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+/* Sidebars general styling */
+.sidebar-card {
+  background-color: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Left Sidebar Profile Widget */
+.profile-banner {
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+.profile-info {
+  text-align: center;
+  padding: 0 var(--spacing-md) var(--spacing-md) var(--spacing-md);
+  border-bottom: 1px solid var(--gray-lighter);
+  position: relative;
+}
+
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-full);
+  background-color: var(--primary-lighter);
+  color: var(--primary);
+  font-family: var(--font-headings);
+  font-weight: 700;
+  font-size: var(--font-size-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--white);
+  box-shadow: var(--shadow-md);
+  margin: -30px auto var(--spacing-sm) auto;
+}
+
+.profile-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--dark);
+}
+
+.profile-title {
+  font-size: var(--font-size-xs);
+  color: var(--gray);
+  margin-top: 2px;
+}
+
+.profile-stats {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--gray-lighter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.profile-stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+}
+
+.stat-label {
+  color: var(--gray);
+}
+
+.stat-value {
+  font-weight: var(--font-weight-bold);
+  color: var(--primary);
+}
+
+.profile-actions {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.guest-cta-box {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.guest-prompt {
+  font-size: var(--font-size-xs);
+  color: var(--gray);
+  line-height: 1.5;
+  margin-bottom: var(--spacing-sm);
+  text-align: center;
+}
+
+/* Center Feed styling */
+.home-main-feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.feed-header-card {
+  background-color: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.feed-greeting {
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+  color: var(--dark);
+}
+
+.feed-subtext {
+  font-size: var(--font-size-sm);
+  color: var(--gray);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Search and Filters Layout */
+.search-filter-controls {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.search-box-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: var(--font-size-sm);
+  pointer-events: none;
+}
+
+.feed-search-input {
+  padding-left: 38px !important;
+}
+
+.feed-filter-select {
+  height: 100%;
+  cursor: pointer;
+}
+
+.feed-stats-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--gray-lighter);
+  padding-top: var(--spacing-md);
+}
+
+.results-count-text {
+  font-size: var(--font-size-xs);
+  color: var(--gray);
+}
+
+.results-count-text strong {
+  color: var(--dark);
+  font-weight: var(--font-weight-bold);
+}
+
+/* Vertical Stacking Feed */
+.jobs-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* Empty State Card */
+.feed-empty-card {
+  background-color: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.empty-icon {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--spacing-sm);
+}
+
+.feed-empty-card h3 {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-sm);
+  color: var(--dark);
+}
+
+.feed-empty-card p {
+  color: var(--gray);
+  max-width: 450px;
+  margin: 0 auto;
+  font-size: var(--font-size-sm);
+}
+
+/* Right Sidebar Insights */
+.stats-tips-widget {
+  padding: var(--spacing-lg);
+}
+
+.widget-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--dark);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--gray-lighter);
+}
+
+.insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.insight-item {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+}
+
+.insight-bullet {
+  font-size: var(--font-size-lg);
+  line-height: 1;
+}
+
+.insight-content h5 {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--dark-light);
+  margin-bottom: 2px;
+}
+
+.insight-content p {
+  font-size: var(--font-size-xs);
+  color: var(--gray);
+  line-height: 1.4;
+}
+
+.widget-footer {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--gray-lighter);
+  text-align: center;
+}
+
+.widget-footer p {
+  font-size: 10px;
+  color: var(--gray);
+}
+
+/* ====================== RESPONSIVE LAYOUTS ====================== */
+
+@media (max-width: 1024px) {
+  .home-container {
+    grid-template-columns: 220px 1fr;
+  }
+  .home-sidebar-right {
+    display: none; /* Hide right sidebar on smaller desktop */
+  }
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    grid-template-columns: 1fr;
+  }
+  .home-sidebar-left {
+    display: none; /* Hide left profile widget on mobile, show only feed */
+  }
+  .search-filter-controls {
+    grid-template-columns: 1fr; /* Stack search and filters on mobile */
+  }
+}
