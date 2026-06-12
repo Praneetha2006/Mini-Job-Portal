@@ -74,6 +74,18 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
+  const refreshUser = async () => {
+    if (token) {
+      try {
+        const profile = await authApi.getMe();
+        setUser(profile);
+        return profile;
+      } catch (error) {
+        console.error("Failed to refresh user profile:", error);
+      }
+    }
+  };
+
   const value = {
     user,
     token,
@@ -81,6 +93,7 @@ export function AuthProvider({ children }) {
     login,
     register,
     logout,
+    refreshUser,
     isAuthenticated: !!user,
   };
 

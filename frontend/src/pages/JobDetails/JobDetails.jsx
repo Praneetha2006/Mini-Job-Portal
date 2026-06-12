@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { getJobById, applyJob, getMyApplications } from "../../api/jobApi";
+import { getJobById, applyJob, getMyApplications, saveJob, unsaveJob } from "../../api/jobApi";
 import { useAuth } from "../../context/AuthContext";
 import "./JobDetails.css";
 import Loader from "../../components/Loader/Loader";
@@ -8,9 +8,10 @@ import Loader from "../../components/Loader/Loader";
 function JobDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, refreshUser } = useAuth();
   
   const [job, setJob] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showApply, setShowApply] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
@@ -37,6 +38,30 @@ function JobDetails() {
       }));
     }
   }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    if (isAuthenticated && user?.role === "candidate" && user.savedJobs) {
+      const alreadySaved = user.savedJobs.some(bookmark => {
+        const jobIdStr = bookmark.jobId?._id ? bookmark.jobId._id.toString() : (bookmark.jobId?.toString() || bookmark.toString());
+        return jobIdStr === id;
+      });
+      setIsSaved(alreadySaved);
+    }
+  }, [user, id, isAuthenticated]);
+
+  const handleSaveToggle = async () => {
+    try {
+      if (isSaved) {
+        await unsaveJob(id);
+      } else {
+        await saveJob(id);
+      }
+      await refreshUser();
+    } catch (error) {
+      console.error("Error toggling save job:", error);
+      alert(error.message || "Failed to update save status");
+    }
+  };
 
   const fetchJob = async () => {
     try {
@@ -194,9 +219,9 @@ function JobDetails() {
               </div>
             </div>
 
-            {/* Application button - Only show for candidates or guests */}
+            {/* Application & Bookmark actions - Only show for candidates or guests */}
             {(!isAuthenticated || user?.role === "candidate") && (
-              <div className="details-footer-actions">
+              <div className="details-footer-actions" style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
                 {hasApplied ? (
                   <button className="btn btn-secondary btn-lg" style={{ borderColor: "var(--success)", color: "var(--success)" }} disabled>
                     ✓ Applied Successfully
@@ -213,6 +238,16 @@ function JobDetails() {
                     }}
                   >
                     {!isAuthenticated ? "Log in to Apply" : showApply ? "Hide Form" : "Apply Now"}
+                  </button>
+                )}
+
+                {isAuthenticated && user?.role === "candidate" && (
+                  <button
+                    className={`btn btn-lg ${isSaved ? "btn-secondary" : "btn-accent"}`}
+                    onClick={handleSaveToggle}
+                    style={{ minWidth: "160px" }}
+                  >
+                    {isSaved ? "⭐ Bookmarked" : "☆ Save Job"}
                   </button>
                 )}
               </div>

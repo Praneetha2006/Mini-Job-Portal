@@ -24,6 +24,32 @@ const userSchema = new mongoose.Schema(
       enum: ["candidate", "recruiter"],
       default: "candidate",
     },
+    // Candidate Profile Info
+    skills: {
+      type: String,
+      default: "",
+    },
+    experience: {
+      type: Number,
+      default: 0,
+    },
+    location: {
+      type: String,
+      default: "",
+    },
+    // Saved jobs list
+    savedJobs: [
+      {
+        jobId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Job",
+        },
+        savedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

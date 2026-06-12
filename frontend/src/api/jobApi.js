@@ -16,18 +16,47 @@ const getHeaders = (hasBody = true) => {
   return headers;
 };
 
-export const getJobs = async () => {
-  const response = await fetch(BASE_URL, {
+// Parse validator details if present in backend error response
+const handleApiError = (data, defaultMessage) => {
+  if (data && data.errors && Array.isArray(data.errors)) {
+    return data.errors.map((err) => `${err.message}`).join(", ");
+  }
+  return data?.message || defaultMessage;
+};
+
+export const getJobs = async (params = {}) => {
+  const query = new URLSearchParams();
+  
+  Object.keys(params).forEach((key) => {
+    if (params[key] !== undefined && params[key] !== null && params[key] !== "") {
+      query.append(key, params[key]);
+    }
+  });
+
+  const queryString = query.toString();
+  const url = queryString ? `${BASE_URL}?${queryString}` : BASE_URL;
+
+  const response = await fetch(url, {
     headers: getHeaders(false),
   });
-  return response.json();
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(handleApiError(data, "Failed to fetch jobs"));
+  }
+  return data;
 };
 
 export const getJobById = async (id) => {
   const response = await fetch(`${BASE_URL}/${id}`, {
     headers: getHeaders(false),
   });
-  return response.json();
+  
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(handleApiError(data, "Failed to fetch job details"));
+  }
+  return data.data;
 };
 
 export const createJob = async (jobData) => {
@@ -39,9 +68,9 @@ export const createJob = async (jobData) => {
 
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to create job posting");
+    throw new Error(handleApiError(data, "Failed to create job posting"));
   }
-  return data;
+  return data.data;
 };
 
 export const updateJob = async (id, jobData) => {
@@ -53,9 +82,9 @@ export const updateJob = async (id, jobData) => {
 
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to update job posting");
+    throw new Error(handleApiError(data, "Failed to update job posting"));
   }
-  return data;
+  return data.data;
 };
 
 export const deleteJob = async (id) => {
@@ -66,9 +95,9 @@ export const deleteJob = async (id) => {
 
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to delete job posting");
+    throw new Error(handleApiError(data, "Failed to delete job posting"));
   }
-  return data;
+  return data.data;
 };
 
 export const applyJob = async (id, applicationData) => {
@@ -80,9 +109,9 @@ export const applyJob = async (id, applicationData) => {
 
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to submit application");
+    throw new Error(handleApiError(data, "Failed to submit application"));
   }
-  return data;
+  return data.data;
 };
 
 export const getApplications = async (id) => {
@@ -93,9 +122,9 @@ export const getApplications = async (id) => {
 
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to fetch applications list");
+    throw new Error(handleApiError(data, "Failed to fetch applications list"));
   }
-  return data;
+  return data.data;
 };
 
 export const getMyApplications = async () => {
@@ -106,7 +135,59 @@ export const getMyApplications = async () => {
 
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to fetch candidate applications list");
+    throw new Error(handleApiError(data, "Failed to fetch candidate applications list"));
   }
-  return data;
+  return data.data;
+};
+
+export const saveJob = async (id) => {
+  const response = await fetch(`${BASE_URL}/${id}/save`, {
+    method: "POST",
+    headers: getHeaders(false),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(handleApiError(data, "Failed to save job"));
+  }
+  return data.data;
+};
+
+export const unsaveJob = async (id) => {
+  const response = await fetch(`${BASE_URL}/${id}/save`, {
+    method: "DELETE",
+    headers: getHeaders(false),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(handleApiError(data, "Failed to remove saved job"));
+  }
+  return data.data;
+};
+
+export const getSavedJobs = async () => {
+  const response = await fetch(`${BASE_URL}/saved`, {
+    method: "GET",
+    headers: getHeaders(false),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(handleApiError(data, "Failed to fetch saved jobs list"));
+  }
+  return data.data;
+};
+
+export const getRecruiterStats = async () => {
+  const response = await fetch(`${BASE_URL}/recruiter/stats`, {
+    method: "GET",
+    headers: getHeaders(false),
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(handleApiError(data, "Failed to fetch recruiter stats"));
+  }
+  return data.data;
 };

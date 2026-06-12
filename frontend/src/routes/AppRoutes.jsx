@@ -8,6 +8,8 @@ import Applications from "../pages/Applications/Applications";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Profile from "../pages/Profile/Profile";
 
 function AppRoutes() {
   return (
@@ -17,6 +19,24 @@ function AppRoutes() {
       <Route path="/job/:id" element={<JobDetails />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+      {/* Shared Protected Routes */}
+      <Route 
+        path="/dashboard" 
+        element={
+          <ProtectedRoute allowedRoles={["recruiter", "candidate"]}>
+            <Dashboard />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/profile" 
+        element={
+          <ProtectedRoute allowedRoles={["recruiter", "candidate"]}>
+            <Profile />
+          </ProtectedRoute>
+        } 
+      />
 
       {/* Recruiter-Only Protected Routes */}
       <Route 
